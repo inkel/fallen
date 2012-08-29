@@ -11,7 +11,7 @@ module Azazel
   
   def self.run
     while running?
-      puts "Time is on my side... Yes it is.."
+      puts "Time is on my side... Yes it is..."
       sleep 666
     end
   end
