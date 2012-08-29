@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Fallen by inkel</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Fallen</h1>
+        <p>A simpler daemon library for Ruby processes.</p>
+
+        <p class="view"><a href="https://github.com/inkel/fallen">View the Project on GitHub <small>inkel/fallen</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/inkel/fallen/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/inkel/fallen/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/inkel/fallen">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Fallen</h1>
+
+<p>A simpler daemon library for Ruby processes.</p>
+
+<h2>Usage</h2>
+
+<pre><code>require "fallen"
+
+module Azazel
+  extend Fallen
+
+  def self.run
+    while running?
+      puts "My name is Legion"
+      sleep 666
+    end
+  end
+end
+
+Azazel.start!
+</code></pre>
+
+<p>This will print <em>My name is Legion</em> every 666 seconds on <code>STDOUT</code>. You can stop the daemon by pressing <code>CTRL+c</code>.</p>
+
+<h2>Control your daemon</h2>
+
+<p><code>Fallen</code> accepts the following methods:</p>
+
+<ul>
+<li>
+<code>daemonize!</code>: detaches the process and keep running it on background;</li>
+<li>
+<code>chdir!</code>: changes the current working directory of the process (useful for log and pid files);</li>
+<li>
+<code>pid_file</code>: allows to indicate a file path where the daemon <code>PID</code> will be stored; could be either an absolute path or a relative path to the current working directory (see <code>chdir!</code>);</li>
+<li>
+<code>stdout</code>, <code>stderr</code> &amp; <code>stdin</code>: redirects the process <code>STDOUT</code>, <code>STDERR</code> and <code>STDIN</code> to either an absolute or relative file path; note that when a process is daemonized by default all these streams are redirected to <code>/dev/null</code>.</li>
+</ul><p>For example, the previous example could have the following lines before <code>Azazel.start!</code> to store the <code>PID</code> and log to a file:</p>
+
+<pre><code>Azazel.pid_file "/var/run/azazel.pid"
+Azazel.stdout "/var/log/azazel.log"
+Azazel.daemonize!
+Azazel.start!
+</code></pre>
+
+<h2>CLI support</h2>
+
+<p><code>Fallen</code> supports command line parameters, by default using the <a href="https://github.com/soveran/clap"><code>clap</code></a> gem. In order to enable command line support you need to do the following:</p>
+
+<pre><code>require "fallen"
+require "fallen/cli"
+
+module Azazel
+  extend Fallen
+  extend Fallen::CLI
+
+  # ...
+
+  def usage
+    puts "..." # Your usage message
+    # Default Fallen usage options
+    puts fallen_usage
+  end
+end
+
+case Clap.run(ARGV, Azazel.cli).first
+when "start"
+  Azazel.start!
+when "stop"
+  Azazel.stop!
+else
+  Azazel.usage
+end
+</code></pre>
+
+<p><code>Azazel.usage</code> will print the following:</p>
+
+<pre><code>Fallen introduced command line arguments:
+
+  -D    Daemonize this process
+  -C    Change directory.
+  -P    Path to PID file. Only used in daemonized process.
+  -out  Path to redirect STDOUT.
+  -err  Path to redirect STDERR.
+  -in   Path to redirect STDIN.
+</code></pre>
+
+<h2>License</h2>
+
+<p>See the <code>UNLICENSE</code> file included with this gem distribution.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/inkel">inkel</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-22300706-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
