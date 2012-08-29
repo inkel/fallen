@@ -11,7 +11,7 @@ module Azazel
   
   def self.run
     while running?
-      puts "My name is Legion"
+      puts "Time is on my side... Yes it is..."
       sleep 666
     end
   end
@@ -20,7 +20,7 @@ end
 Azazel.start!
 ```
 
-This will print _My name is Legion_ every 666 seconds on `STDOUT`. You can stop the daemon by pressing `CTRL+c`.
+This will print _Time is on my side... Yes it is.._ every 666 seconds on `STDOUT`. You can stop the daemon by pressing `CTRL+c`.
 
 ## Control your daemon
 `Fallen` accepts the following methods:
