@@ -7,7 +7,10 @@ Gem::Specification.new do |s|
   s.description = "A simpler way to create Ruby fallen angels, better known as daemons"
   s.authors     = ["Leandro López"]
   s.email       = ["inkel.ar@gmail.com"]
-  s.homepage    = "https://github.com/inkel/fallen"
+  s.homepage    = "http://inkel.github.com/fallen"
+  s.license     = "UNLICENSE"
+
+  s.required_ruby_version = '>= 1.9.2'
 
   s.files       = `git ls-files`.split("\n")
 end
