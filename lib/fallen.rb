@@ -8,12 +8,10 @@ module Fallen
   # Detachs this fallen angel from current process and runs it in
   # background
   #
-  # @note `STDIN`, `STDOUT` & `STDERR` will be redirected to
-  #   `/dev/null` after calling `daemonize!`. If you want to redirect
-  #   these to another location be sure to call {#stdin}, {#stdout} or
-  #   {#stderr} after calling this method.
+  # @note Unless `STDIN`, `STDOUT` or `STDERR` are redirected to a
+  #   file, these will be redirected to `/dev/null`
   def daemonize!
-    Process.daemon true
+    Process.daemon true, (@stdin || @stdout || @stderr)
   end
 
   # Changes the working directory
@@ -33,10 +31,6 @@ module Fallen
 
   # Reopens `STDIN` for reading from `path`
   #
-  # @note `STDIN` will be redirected to `/dev/null` when `daemonize!`
-  #   is called. In order to avoid this, {#stdin} should be called
-  #   *after* calling `daemonize!
-  #
   # This path is relative to the working directory unless an absolute
   # path is given.
   def stdin path
@@ -46,10 +40,6 @@ module Fallen
 
   # Reopens `STDOUT` for writing to `path`
   #
-  # @note `STDOUT` will be redirected to `/dev/null` when `daemonize!`
-  #   is called. In order to avoid this, {#stdout} should be called
-  #   *after* calling `daemonize!
-  #
   # This path is relative to the working directory unless an absolute
   # path is given.
   def stdout path
@@ -58,10 +48,6 @@ module Fallen
   end
 
   # Reopens `STDERR` for writing to `path`
-  #
-  # @note `STDERR` will be redirected to `/dev/null` when `daemonize!`
-  #   is called. In order to avoid this, {#stderr} should be called
-  #   *after* calling `daemonize!
   #
   # This path is relative to the working directory unless an absolute
   # path is given.
