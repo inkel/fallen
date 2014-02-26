@@ -86,13 +86,21 @@ module Fallen
   #
   # This will set up `INT` & `TERM` signal handlers to stop execution
   # properly. When this signal handlers are called it will also call
-  # the `stop` callback method.
+  # the `stop` callback method and delete the pid file
   def run!
     save_pid_file
     @running = true
-    trap(:INT) { @running = false; stop }
-    trap(:TERM) { @running = false; stop }
+    trap(:INT) { interrupt }
+    trap(:TERM) { interrupt }
     run
+  end
+
+  # Handles an interrupt (`SIGINT` or `SIGTERM`) properly as it
+  # deletes the pid file and calles the `stop` method.
+  def interrupt
+    @running = false
+    File.delete @pid_file
+    stop
   end
 
   # Stops fallen angel execution
@@ -104,6 +112,7 @@ module Fallen
       pid = File.read(@pid_file).strip
       begin
         Process.kill :INT, pid.to_i
+        File.delete @pid_file
       rescue Errno::ESRCH
         STDERR.puts "No daemon is running with PID #{pid}"
         exit 3
