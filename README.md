@@ -3,7 +3,7 @@ A simpler daemon library for Ruby processes.
 
 ## Usage
 
-```
+```ruby
 require "fallen"
 
 module Azazel
@@ -32,7 +32,7 @@ This will print _Time is on my side... Yes it is.._ every 666 seconds on `STDOUT
 
 For example, the previous example could have the following lines before `Azazel.start!` to store the `PID` and log to a file:
 
-```
+```ruby
 Azazel.pid_file "/var/run/azazel.pid"
 Azazel.stdout "/var/log/azazel.log"
 Azazel.daemonize!
@@ -42,7 +42,7 @@ Azazel.start!
 ## CLI support
 `Fallen` supports command line parameters, by default using the [`clap`](https://github.com/soveran/clap) gem. In order to enable command line support you need to do the following:
 
-```
+```ruby
 require "fallen"
 require "fallen/cli"
 
