@@ -99,7 +99,7 @@ module Fallen
   # deletes the pid file and calles the `stop` method.
   def interrupt
     @running = false
-    File.delete @pid_file if File.exists?(@pid_file)
+    File.delete @pid_file if @pid_file && File.exists?(@pid_file)
     stop
   end
 
