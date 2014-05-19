@@ -45,6 +45,7 @@ module Fallen
   def stdout path
     @stdout = File.absolute_path(path)
     STDOUT.reopen @stdout, "a"
+    STDOUT.sync = true
   end
 
   # Reopens `STDERR` for writing to `path`
@@ -54,6 +55,7 @@ module Fallen
   def stderr path
     @stderr = File.absolute_path(path)
     STDERR.reopen @stderr, "a"
+    STDERR.sync = true
   end
 
   # Returns `true` if the fallen angel is running
